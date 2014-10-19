@@ -1,0 +1,5 @@
+src/main/resources
+bin
+out/production/halloween-vertx-module
+out/test/halloween-vertx-module
+build/deps
