@@ -41,7 +41,9 @@ uploadArchives - upload the module zip file (and jar if one has been created) to
 install - install any jars produced to the local Maven repository (.m2)
 
  */
-
+repositories {
+  mavenCentral()
+}
 dependencies {
   /*
   Add your module jar dependencies here
@@ -50,7 +52,7 @@ dependencies {
   testCompile "com.foo:foo-lib:1.0.1" - for test time deps
   provided "com.foo:foo-lib:1.0.1" - if you DON'T want it to be packaged in the module zip
   */
-
+  compile group: 'com.google.guava', name: 'guava', version: '18.0'
   // If you're creating Groovy compiled verticles you may need the following dependencies
   provided "org.codehaus.groovy:groovy-all:$groovyVersion"
   provided "io.vertx:lang-groovy:$groovyLangModVersion@jar"
