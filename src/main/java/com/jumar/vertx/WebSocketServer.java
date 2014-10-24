@@ -35,7 +35,20 @@ public class WebSocketServer extends Verticle
 			@Override
 			public void handle(final ServerWebSocket ws)
 			{
-				if (ws.path().startsWith("/mediaplayer/play"))
+				if (ws.path().equals("/echo")|| ws.path().equals("echo"))
+				{
+					ws.dataHandler(new Handler<Buffer>()
+					{
+						@Override
+						public void handle(Buffer data)
+						{
+							String lDataStr = data.toString();
+							lLogger.info("Echoing: " + lDataStr);
+							ws.writeTextFrame(lDataStr);
+						}
+					});
+				}
+				else if (ws.path().startsWith("/mediaplayer/play"))
 				{
 					ws.dataHandler(new Handler<Buffer>()
 					{
@@ -57,6 +70,10 @@ public class WebSocketServer extends Verticle
 								{
 									lLogger.error("No media at index: " + lMediaID);
 								}
+							}
+							else
+							{
+								lLogger.error("Unknown play command option: " + lDataStr);
 							}
 						}
 					});
@@ -101,7 +118,6 @@ public class WebSocketServer extends Verticle
 			@Override
 			public void run()
 			{
-
 				List<String> lCmd = new ArrayList<String>();
 				lCmd.addAll(cParameters.mGetInstance().mGetMediaPlayerCmdAndArgs());
 				try
